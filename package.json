@@ -32,7 +32,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint ./src/**/*.jsx",
-    "lint:fix": "eslint ./src/**/*.jsx --fix",
+    "lint:fix": "eslint ./src/**/*.jsx --fix --color",
     "format": "prettier --write ./src/**/*.jsx"
   },
   "eslintConfig": {
