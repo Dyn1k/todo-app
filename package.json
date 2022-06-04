@@ -41,13 +41,8 @@
       "react-app/jest"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
   "lint-staged": {
-    "*.jsx": [
+    "*.(js|jsx)": [
       "npm run lint:fix",
       "npm run format",
       "git add"
