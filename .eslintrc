@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb", "prettier"],
+  "extends": ["airbnb", "prettier", "husky"],
   "parserOptions": {
     "ecmaVersion": 2021
   },
