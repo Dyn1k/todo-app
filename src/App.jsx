@@ -85,7 +85,7 @@ class App extends Component {
 
   createNewTask(description) {
     const { taskFilter } = this.state;
-    this.maxId++;
+    this.maxId += 1;
 
     return {
       description,
