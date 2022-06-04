@@ -74,14 +74,14 @@ class App extends Component {
     });
   }
 
-  onAllFilter() {
+  onAllFilter = () => {
     const { tasks } = this.state;
 
     this.setState({
       tasks: this.doVisibleTasks(tasks),
       taskFilter: 'all',
     });
-  }
+  };
 
   createNewTask(description) {
     const { taskFilter } = this.state;
