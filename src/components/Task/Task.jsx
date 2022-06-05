@@ -58,10 +58,12 @@ class Task extends Component {
     const { modifiedText } = this.state;
 
     if (e.keyCode === 13) {
-      onEdit(task.id, modifiedText);
-      this.setState({
-        isEdit: false,
-      });
+      if (modifiedText.replace(/\s/g, '').length !== 0) {
+        onEdit(task.id, modifiedText);
+        this.setState({
+          isEdit: false,
+        });
+      }
     }
   }
 
