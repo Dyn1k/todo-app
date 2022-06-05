@@ -27,10 +27,13 @@ class NewTaskForm extends Component {
     const { onAdd } = this.props;
 
     e.preventDefault();
-    onAdd(text);
-    this.setState({
-      text: '',
-    });
+
+    if (text.replace(/\s/g, '').length !== 0) {
+      onAdd(text);
+      this.setState({
+        text: '',
+      });
+    }
   }
 
   render() {
