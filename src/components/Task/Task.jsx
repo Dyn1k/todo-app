@@ -9,9 +9,17 @@ class Task extends Component {
   constructor(props) {
     super(props);
 
+    const { task } = this.props;
+
     this.state = {
       updatedTime: this.createdTime(),
+      isEdit: false,
+      modifiedText: task.description,
     };
+
+    this.onEditTask = this.onEditTask.bind(this);
+    this.finishEdit = this.finishEdit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -26,6 +34,18 @@ class Task extends Component {
     clearInterval(this.interval);
   }
 
+  onInputChange(e) {
+    this.setState({
+      modifiedText: e.target.value,
+    });
+  }
+
+  onEditTask() {
+    this.setState({
+      isEdit: true,
+    });
+  }
+
   createdTime() {
     const { task } = this.props;
     return formatDistanceToNow(task.created, {
@@ -33,9 +53,21 @@ class Task extends Component {
     });
   }
 
+  finishEdit(e) {
+    const { onEdit, task } = this.props;
+    const { modifiedText } = this.state;
+
+    if (e.keyCode === 13) {
+      onEdit(task.id, modifiedText);
+      this.setState({
+        isEdit: false,
+      });
+    }
+  }
+
   render() {
     const { task, onDelete, onToggleDone } = this.props;
-    const { updatedTime } = this.state;
+    const { updatedTime, isEdit, modifiedText } = this.state;
 
     let classNames = '';
 
@@ -45,6 +77,10 @@ class Task extends Component {
 
     if (task.done) {
       classNames += ' completed';
+    }
+
+    if (isEdit) {
+      classNames += ' editing';
     }
 
     return (
@@ -60,6 +96,7 @@ class Task extends Component {
             type="button"
             aria-label="Edit button"
             className="icon icon-edit"
+            onClick={this.onEditTask}
           />
           <button
             type="button"
@@ -68,6 +105,17 @@ class Task extends Component {
             onClick={onDelete}
           />
         </div>
+        {isEdit ? (
+          <input
+            type="text"
+            className="edit"
+            value={modifiedText}
+            onKeyUp={this.finishEdit}
+            onChange={this.onInputChange}
+            /* eslint-disable-next-line jsx-a11y/no-autofocus */
+            autoFocus
+          />
+        ) : null}
       </li>
     );
   }
@@ -77,6 +125,7 @@ Task.defaultProps = {
   task: [],
   onDelete: () => {},
   onToggleDone: () => {},
+  onEdit: () => {},
 };
 
 Task.propTypes = {
@@ -85,9 +134,11 @@ Task.propTypes = {
     done: PropTypes.bool,
     isVisible: PropTypes.bool,
     created: PropTypes.shape(),
+    id: PropTypes.number,
   }),
   onDelete: PropTypes.func,
   onToggleDone: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default Task;

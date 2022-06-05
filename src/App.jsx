@@ -10,7 +10,7 @@ class App extends Component {
   constructor() {
     super();
 
-    this.maxId = 1;
+    this.maxId = 0;
 
     this.state = {
       tasks: [],
@@ -25,6 +25,7 @@ class App extends Component {
     this.onCompletedFilter = this.onCompletedFilter.bind(this);
     this.onActiveFilter = this.onActiveFilter.bind(this);
     this.onAllFilter = this.onAllFilter.bind(this);
+    this.editTask = this.editTask.bind(this);
   }
 
   onToggleDone(id) {
@@ -123,6 +124,18 @@ class App extends Component {
     return array.map((el) => ({ ...el, isVisible: true }));
   }
 
+  editTask(id, taskText) {
+    this.setState(({ tasks }) => {
+      const newArray = tasks.map((el) =>
+        el.id === id ? { ...el, description: taskText } : el
+      );
+
+      return {
+        tasks: newArray,
+      };
+    });
+  }
+
   render() {
     const { tasks, taskFilter } = this.state;
 
@@ -137,6 +150,7 @@ class App extends Component {
             tasks={tasks}
             onDelete={this.deleteTask}
             onToggleDone={this.onToggleDone}
+            onEdit={this.editTask}
           />
           <Footer
             onCompletedFilter={this.onCompletedFilter}

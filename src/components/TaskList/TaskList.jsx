@@ -6,19 +6,16 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({ tasks, onDelete, onToggleDone }) {
-  const elements = tasks.map((task) => {
-    const { id, ...taskProps } = task;
-
-    return (
-      <Task
-        key={id}
-        task={taskProps}
-        onDelete={() => onDelete(id)}
-        onToggleDone={() => onToggleDone(id)}
-      />
-    );
-  });
+function TaskList({ tasks, onDelete, onToggleDone, onEdit }) {
+  const elements = tasks.map((task) => (
+    <Task
+      key={task.id}
+      task={task}
+      onDelete={() => onDelete(task.id)}
+      onToggleDone={() => onToggleDone(task.id)}
+      onEdit={onEdit}
+    />
+  ));
 
   return <ul className="todo-list">{elements}</ul>;
 }
@@ -27,6 +24,7 @@ TaskList.defaultProps = {
   tasks: [],
   onDelete: () => {},
   onToggleDone: () => {},
+  onEdit: () => {},
 };
 
 TaskList.propTypes = {
@@ -41,6 +39,7 @@ TaskList.propTypes = {
   ),
   onDelete: PropTypes.func,
   onToggleDone: PropTypes.func,
+  onEdit: PropTypes.func,
 };
 
 export default TaskList;
