@@ -7,14 +7,7 @@ import TasksFilter from '../TasksFilter';
 import './Footer.css';
 
 function Footer(props) {
-  const {
-    onCompletedFilter,
-    onActiveFilter,
-    onAllFilter,
-    filterValue,
-    clearCompletedTasks,
-    todo,
-  } = props;
+  const { onToggleFilter, filterValue, clearCompletedTasks, todo } = props;
 
   return (
     <footer className="footer">
@@ -22,12 +15,7 @@ function Footer(props) {
         {todo} item
         {todo > 1 ? 's' : null} left
       </span>
-      <TasksFilter
-        onCompletedFilter={onCompletedFilter}
-        onActiveFilter={onActiveFilter}
-        onAllFilter={onAllFilter}
-        filterValue={filterValue}
-      />
+      <TasksFilter onToggleFilter={onToggleFilter} filterValue={filterValue} />
       <button
         type="button"
         className="clear-completed"
@@ -40,18 +28,14 @@ function Footer(props) {
 }
 
 Footer.defaultProps = {
-  onCompletedFilter: () => {},
-  onActiveFilter: () => {},
-  onAllFilter: () => {},
+  onToggleFilter: () => {},
   filterValue: 'all',
   clearCompletedTasks: () => {},
   todo: 0,
 };
 
 Footer.propTypes = {
-  onCompletedFilter: PropTypes.func,
-  onActiveFilter: PropTypes.func,
-  onAllFilter: PropTypes.func,
+  onToggleFilter: PropTypes.func,
   filterValue: PropTypes.string,
   clearCompletedTasks: PropTypes.func,
   todo: PropTypes.number,

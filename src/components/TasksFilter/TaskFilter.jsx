@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import './TaskFilter.css';
 
 function TaskFilter(props) {
-  const { onCompletedFilter, onActiveFilter, onAllFilter, filterValue } = props;
+  const { filterValue, onToggleFilter } = props;
 
   const onToggleFilterButtons = (name) =>
     filterValue === name ? 'selected' : null;
@@ -14,8 +14,9 @@ function TaskFilter(props) {
       <li>
         <button
           type="button"
+          id="all"
           className={onToggleFilterButtons('all')}
-          onClick={onAllFilter}
+          onClick={onToggleFilter}
         >
           All
         </button>
@@ -23,8 +24,9 @@ function TaskFilter(props) {
       <li>
         <button
           type="button"
+          id="active"
           className={onToggleFilterButtons('active')}
-          onClick={onActiveFilter}
+          onClick={onToggleFilter}
         >
           Active
         </button>
@@ -32,8 +34,9 @@ function TaskFilter(props) {
       <li>
         <button
           type="button"
+          id="completed"
           className={onToggleFilterButtons('completed')}
-          onClick={onCompletedFilter}
+          onClick={onToggleFilter}
         >
           Completed
         </button>
@@ -43,16 +46,11 @@ function TaskFilter(props) {
 }
 
 TaskFilter.defaultProps = {
-  onCompletedFilter: () => {},
-  onActiveFilter: () => {},
-  onAllFilter: () => {},
   filterValue: 'all',
 };
 
 TaskFilter.propTypes = {
-  onCompletedFilter: PropTypes.func,
-  onActiveFilter: PropTypes.func,
-  onAllFilter: PropTypes.func,
+  onToggleFilter: PropTypes.func.isRequired,
   filterValue: PropTypes.string,
 };
 

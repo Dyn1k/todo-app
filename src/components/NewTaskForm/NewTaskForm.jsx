@@ -11,18 +11,15 @@ class NewTaskForm extends Component {
     this.state = {
       text: '',
     };
-
-    this.onInputChange = this.onInputChange.bind(this);
-    this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onInputChange(e) {
+  onInputChange = (e) => {
     this.setState({
       text: e.target.value,
     });
-  }
+  };
 
-  onSubmit(e) {
+  onSubmit = (e) => {
     const { text } = this.state;
     const { onAdd } = this.props;
 
@@ -34,7 +31,7 @@ class NewTaskForm extends Component {
         text: '',
       });
     }
-  }
+  };
 
   render() {
     const { text } = this.state;

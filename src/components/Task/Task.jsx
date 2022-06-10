@@ -16,10 +16,6 @@ class Task extends Component {
       isEdit: false,
       modifiedText: task.description,
     };
-
-    this.onEditTask = this.onEditTask.bind(this);
-    this.finishEdit = this.finishEdit.bind(this);
-    this.onInputChange = this.onInputChange.bind(this);
   }
 
   componentDidMount() {
@@ -34,26 +30,19 @@ class Task extends Component {
     clearInterval(this.interval);
   }
 
-  onInputChange(e) {
+  onInputChange = (e) => {
     this.setState({
       modifiedText: e.target.value,
     });
-  }
+  };
 
-  onEditTask() {
+  onEditTask = () => {
     this.setState({
       isEdit: true,
     });
-  }
+  };
 
-  createdTime() {
-    const { task } = this.props;
-    return formatDistanceToNow(task.created, {
-      includeSeconds: true,
-    });
-  }
-
-  finishEdit(e) {
+  finishEdit = (e) => {
     const { onEdit, task } = this.props;
     const { modifiedText } = this.state;
 
@@ -65,6 +54,13 @@ class Task extends Component {
         });
       }
     }
+  };
+
+  createdTime() {
+    const { task } = this.props;
+    return formatDistanceToNow(task.created, {
+      includeSeconds: true,
+    });
   }
 
   render() {
@@ -72,10 +68,6 @@ class Task extends Component {
     const { updatedTime, isEdit, modifiedText } = this.state;
 
     let classNames = '';
-
-    if (!task.isVisible) {
-      classNames += ' hidden';
-    }
 
     if (task.done) {
       classNames += ' completed';

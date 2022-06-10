@@ -6,8 +6,25 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({ tasks, onDelete, onToggleDone, onEdit }) {
-  const elements = tasks.map((task) => (
+function TaskList({ tasks, onDelete, onToggleDone, onEdit, filterValue }) {
+  const filteredElements = tasks.filter((task) => {
+    switch (filterValue) {
+      case 'all': {
+        return task;
+      }
+      case 'active': {
+        return task.done === false;
+      }
+      case 'completed': {
+        return task.done === true;
+      }
+      default: {
+        return task;
+      }
+    }
+  });
+
+  const elements = filteredElements.map((task) => (
     <Task
       key={task.id}
       task={task}
@@ -25,6 +42,7 @@ TaskList.defaultProps = {
   onDelete: () => {},
   onToggleDone: () => {},
   onEdit: () => {},
+  filterValue: 'all',
 };
 
 TaskList.propTypes = {
@@ -40,6 +58,7 @@ TaskList.propTypes = {
   onDelete: PropTypes.func,
   onToggleDone: PropTypes.func,
   onEdit: PropTypes.func,
+  filterValue: PropTypes.string,
 };
 
 export default TaskList;
