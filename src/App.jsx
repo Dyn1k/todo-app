@@ -18,6 +18,17 @@ class App extends Component {
     };
   }
 
+  onStartTimer = (id) => {
+    this.setState(({ tasks }) => {
+      const newArray = tasks.map((el) =>
+        el.id === id ? { ...el, timer: el.timer - 1 } : el
+      );
+      return {
+        tasks: newArray,
+      };
+    });
+  };
+
   onToggleDone = (id) => {
     this.setState(({ tasks }) => {
       const newArray = tasks.map((el) =>
@@ -35,19 +46,20 @@ class App extends Component {
     });
   };
 
-  createNewTask = (description) => {
+  createNewTask = (description, timer) => {
     this.id += 1;
 
     return {
       description,
+      timer,
       done: false,
       created: new Date(),
       id: this.id,
     };
   };
 
-  addTask = (text) => {
-    const newTask = this.createNewTask(text);
+  addTask = (text, minutes, seconds) => {
+    const newTask = this.createNewTask(text, minutes, seconds);
 
     this.setState(({ tasks }) => ({
       tasks: [newTask, ...tasks],
@@ -95,6 +107,7 @@ class App extends Component {
             onDelete={this.deleteTask}
             onToggleDone={this.onToggleDone}
             onEdit={this.editTask}
+            onStartTimer={this.onStartTimer}
             filterValue={taskFilter}
           />
           <Footer

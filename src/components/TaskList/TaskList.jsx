@@ -6,7 +6,14 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({ tasks, onDelete, onToggleDone, onEdit, filterValue }) {
+function TaskList({
+  tasks,
+  onDelete,
+  onToggleDone,
+  onEdit,
+  filterValue,
+  onStartTimer,
+}) {
   const filteredElements = tasks.filter((task) => {
     switch (filterValue) {
       case 'all': {
@@ -31,6 +38,7 @@ function TaskList({ tasks, onDelete, onToggleDone, onEdit, filterValue }) {
       onDelete={() => onDelete(task.id)}
       onToggleDone={() => onToggleDone(task.id)}
       onEdit={onEdit}
+      onStartTimer={() => onStartTimer(task.id)}
     />
   ));
 
@@ -42,6 +50,7 @@ TaskList.defaultProps = {
   onDelete: () => {},
   onToggleDone: () => {},
   onEdit: () => {},
+  onStartTimer: () => {},
   filterValue: 'all',
 };
 
@@ -59,6 +68,7 @@ TaskList.propTypes = {
   onToggleDone: PropTypes.func,
   onEdit: PropTypes.func,
   filterValue: PropTypes.string,
+  onStartTimer: PropTypes.func,
 };
 
 export default TaskList;

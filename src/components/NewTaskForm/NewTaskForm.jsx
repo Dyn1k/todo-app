@@ -10,42 +10,69 @@ class NewTaskForm extends Component {
 
     this.state = {
       text: '',
+      minutesTimer: 0,
+      secondsTimer: 0,
     };
   }
 
-  onInputChange = (e) => {
+  onInputChange = (e, stateName) => {
     this.setState({
-      text: e.target.value,
+      [stateName]: e.target.value,
     });
   };
 
+  calculateSeconds = (minutes, seconds) => {
+    const min = Number(minutes) < 0 ? 0 : Number(minutes);
+    const sec = Number(seconds) < 0 ? 0 : Number(seconds);
+    return min * 60 + sec;
+  };
+
   onSubmit = (e) => {
-    const { text } = this.state;
+    const { text, minutesTimer, secondsTimer } = this.state;
     const { onAdd } = this.props;
 
-    e.preventDefault();
-
-    if (text.replace(/\s/g, '').length !== 0) {
-      onAdd(text);
-      this.setState({
-        text: '',
-      });
+    if (e.keyCode === 13) {
+      if (text.replace(/\s/g, '').length !== 0) {
+        onAdd(text, this.calculateSeconds(minutesTimer, secondsTimer));
+        this.setState({
+          text: '',
+          minutesTimer: 0,
+          secondsTimer: 0,
+        });
+      }
     }
   };
 
   render() {
-    const { text } = this.state;
+    const { text, minutesTimer, secondsTimer } = this.state;
 
     return (
       <header className="header">
         <h1>todos</h1>
-        <form onSubmit={this.onSubmit}>
+        {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions */}
+        <form className="new-todo-form" onKeyUp={this.onSubmit}>
           <input
             type="text"
             className="new-todo"
             placeholder="What needs to be done?"
-            onChange={this.onInputChange}
+            onChange={(e) => this.onInputChange(e, 'text')}
             value={text}
+          />
+          <input
+            type="number"
+            min="0"
+            className="new-todo-form__timer"
+            placeholder="Min"
+            onChange={(e) => this.onInputChange(e, 'minutesTimer')}
+            value={minutesTimer === 0 ? '' : minutesTimer}
+          />
+          <input
+            type="number"
+            min="0"
+            className="new-todo-form__timer"
+            placeholder="Sec"
+            onChange={(e) => this.onInputChange(e, 'secondsTimer')}
+            value={secondsTimer === 0 ? '' : secondsTimer}
           />
         </form>
       </header>
