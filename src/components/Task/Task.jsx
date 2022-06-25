@@ -16,6 +16,7 @@ const Task = ({ task, onStartTimer, onEdit, onDelete, onToggleDone }) => {
   const [updatedTime, setUpdatedTime] = useState(createdTime());
   const [isEdit, setEdit] = useState(false);
   const [modifiedText, setModifiedText] = useState(task.description);
+  const [time, setTime] = useState(task.timer);
   const [timer, setTimer] = useState(0);
 
   useEffect(() => {
@@ -28,11 +29,14 @@ const Task = ({ task, onStartTimer, onEdit, onDelete, onToggleDone }) => {
     };
   }, []);
 
+  useEffect(() => () => clearInterval(timer), []);
+
   useEffect(() => {
-    if (task.timer === 0) {
+    onStartTimer(task.id, time);
+    if (task.timer === 1) {
       clearInterval(timer);
     }
-  }, [task.timer]);
+  }, [time]);
 
   const onInputChange = (e) => {
     setModifiedText(e.target.value);
@@ -44,7 +48,11 @@ const Task = ({ task, onStartTimer, onEdit, onDelete, onToggleDone }) => {
 
   const startTimer = () => {
     if (!timer && task.timer !== 0) {
-      setTimer(setInterval(onStartTimer, 1000));
+      setTimer(
+        setInterval(() => {
+          setTime((t) => t - 1);
+        }, 1000)
+      );
     }
   };
 
@@ -92,7 +100,7 @@ const Task = ({ task, onStartTimer, onEdit, onDelete, onToggleDone }) => {
               aria-label="Pause button"
               onClick={stopTimer}
             />
-            <Timer timer={task.timer} />
+            <Timer timer={time} />
           </span>
           <span className="created">created {updatedTime} ago</span>
         </label>

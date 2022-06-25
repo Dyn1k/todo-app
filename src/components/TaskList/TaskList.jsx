@@ -38,7 +38,7 @@ const TaskList = ({
       onDelete={() => onDelete(task.id)}
       onToggleDone={() => onToggleDone(task.id)}
       onEdit={onEdit}
-      onStartTimer={() => onStartTimer(task.id)}
+      onStartTimer={onStartTimer}
     />
   ));
 
