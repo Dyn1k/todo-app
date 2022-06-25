@@ -6,7 +6,7 @@ import TasksFilter from '../TasksFilter';
 
 import './Footer.css';
 
-function Footer(props) {
+const Footer = (props) => {
   const { onToggleFilter, filterValue, clearCompletedTasks, todo } = props;
 
   return (
@@ -25,7 +25,7 @@ function Footer(props) {
       </button>
     </footer>
   );
-}
+};
 
 Footer.defaultProps = {
   onToggleFilter: () => {},

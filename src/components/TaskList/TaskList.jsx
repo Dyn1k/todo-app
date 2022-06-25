@@ -6,14 +6,14 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({
+const TaskList = ({
   tasks,
   onDelete,
   onToggleDone,
   onEdit,
   filterValue,
   onStartTimer,
-}) {
+}) => {
   const filteredElements = tasks.filter((task) => {
     switch (filterValue) {
       case 'all': {
@@ -43,7 +43,7 @@ function TaskList({
   ));
 
   return <ul className="todo-list">{elements}</ul>;
-}
+};
 
 TaskList.defaultProps = {
   tasks: [],

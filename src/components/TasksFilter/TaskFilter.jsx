@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './TaskFilter.css';
 
-function TaskFilter(props) {
+const TaskFilter = (props) => {
   const { filterValue, onToggleFilter } = props;
 
   const onToggleFilterButtons = (name) =>
@@ -43,7 +43,7 @@ function TaskFilter(props) {
       </li>
     </ul>
   );
-}
+};
 
 TaskFilter.defaultProps = {
   filterValue: 'all',
