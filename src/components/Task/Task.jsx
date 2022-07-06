@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-
+/* eslint-disable */
 import PropTypes from 'prop-types';
-
 import { formatDistanceToNow } from 'date-fns';
+
+import Timer from '../Timer';
+
 import './Task.css';
 
 class Task extends Component {
@@ -16,6 +18,8 @@ class Task extends Component {
       isEdit: false,
       modifiedText: task.description,
     };
+
+    this.timer = 0;
   }
 
   componentDidMount() {
@@ -26,8 +30,17 @@ class Task extends Component {
     }, 30000);
   }
 
+  componentDidUpdate() {
+    const { task } = this.props;
+
+    if (task.timer === 0) {
+      clearInterval(this.timer);
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.interval);
+    clearInterval(this.timer);
   }
 
   onInputChange = (e) => {
@@ -40,6 +53,19 @@ class Task extends Component {
     this.setState({
       isEdit: true,
     });
+  };
+
+  startTimer = () => {
+    const { onStartTimer, task } = this.props;
+
+    if (!this.timer && task.timer !== 0) {
+      this.timer = setInterval(onStartTimer, 1000);
+    }
+  };
+
+  stopTimer = () => {
+    clearInterval(this.timer);
+    this.timer = 0;
   };
 
   finishEdit = (e) => {
@@ -83,7 +109,22 @@ class Task extends Component {
           <input className="toggle" type="checkbox" onClick={onToggleDone} />
           {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
           <label>
-            <span className="description">{task.description}</span>
+            <span className="title">{task.description}</span>
+            <span className="description">
+              <button
+                type="button"
+                className="icon icon-play"
+                aria-label="Play button"
+                onClick={this.startTimer}
+              />
+              <button
+                type="button"
+                className="icon icon-pause"
+                aria-label="Pause button"
+                onClick={this.stopTimer}
+              />
+              <Timer timer={task.timer} />
+            </span>
             <span className="created">created {updatedTime} ago</span>
           </label>
           <button
@@ -120,11 +161,13 @@ Task.defaultProps = {
   onDelete: () => {},
   onToggleDone: () => {},
   onEdit: () => {},
+  onStartTimer: () => {},
 };
 
 Task.propTypes = {
   task: PropTypes.shape({
     description: PropTypes.string,
+    timer: PropTypes.number,
     done: PropTypes.bool,
     isVisible: PropTypes.bool,
     created: PropTypes.shape(),
@@ -133,6 +176,7 @@ Task.propTypes = {
   onDelete: PropTypes.func,
   onToggleDone: PropTypes.func,
   onEdit: PropTypes.func,
+  onStartTimer: PropTypes.func,
 };
 
 export default Task;
